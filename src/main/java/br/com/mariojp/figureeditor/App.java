@@ -6,20 +6,26 @@ import java.awt.*;
 public class App {
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            try {
-                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-            } catch (Exception ignored) {}
-
-            JFrame frame = new JFrame("Figure Editor — Clique para inserir figuras");
-            frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+            JFrame frame = new JFrame("Figure Editor");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(800, 600);
 
             DrawingPanel panel = new DrawingPanel();
-
-            frame.setLayout(new BorderLayout());
             frame.add(panel, BorderLayout.CENTER);
 
-            frame.setSize(900, 600);
-            frame.setLocationRelativeTo(null);
+            // Painel de botões
+            JPanel topPanel = new JPanel();
+            JButton colorButton = new JButton("Cor...");
+            colorButton.addActionListener(e -> {
+                Color chosen = JColorChooser.showDialog(frame, "Escolher cor", Color.BLACK);
+                if (chosen != null) {
+                    panel.setCurrentColor(chosen);
+                }
+            });
+            topPanel.add(colorButton);
+
+            frame.add(topPanel, BorderLayout.NORTH);
+
             frame.setVisible(true);
         });
     }
